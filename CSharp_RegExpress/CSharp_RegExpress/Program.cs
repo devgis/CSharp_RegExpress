@@ -19,7 +19,7 @@ namespace CSharp_RegExpress
             //Application.Run(new Form1());
 
 
-            string TaobaoLink = "<a href=\"http://www.taobao.com\" title=\"淘宝网 - 淘！我喜欢\" target=\"_blank\">淘宝</a><a href=\"http://www.taobao.com\" title=\"淘宝网 - 淘！我喜欢\" target=\"_blank\">淘宝</a><a href=\"http://www.taobao.com\" title=\"淘宝网 - 淘！我喜欢\" target=\"_blank\">淘宝</a><a href=\"http://www.taobao.com\" title=\"淘宝网 - 淘！我喜欢\" target=\"_blank\">淘宝</a><a href=\"http://www.taobao.com\" title=\"淘宝网 - 淘！我喜欢\" target=\"_blank\">淘宝</a>";
+            string TaobaoLink = "<a href=\"http://www.taobao.com\" title=\"特殊的\" target=\"_blank\"/><a href=\"http://www.taobao.com\" title=\"淘宝网 - 淘！我喜欢\" target=\"_blank\">淘宝</a><a href=\"http://www.taobao.com\" title=\"淘宝网 - 淘！我喜欢\" target=\"_blank\">淘宝</a><a href=\"http://www.taobao.com\" title=\"淘宝网 - 淘！我喜欢\" target=\"_blank\">淘宝</a><a href=\"http://www.taobao.com\" title=\"淘宝网 - 淘！我喜欢\" target=\"_blank\">淘宝</a><a href=\"http://www.taobao.com\" title=\"淘宝网 - 淘！我喜欢\" target=\"_blank\">淘宝</a>";
             string RegexStr = @"<a[^>]+href=""(\S+)""[^>]+title=""([\s\S]+?)""[^>]+>(\S+)</a>";
             Console.WriteLine($"TaobaoLink:\r\n{TaobaoLink}\r\n");
             Console.WriteLine($"RegexStr:\r\n{RegexStr}\r\n");
@@ -29,8 +29,21 @@ namespace CSharp_RegExpress
                 Console.WriteLine("第" + i + "组：" + mat.Groups[i].Value);
             }
             Console.WriteLine("------------------------------------------------------------------");
-            RegexStr = @"<a.*?/a>"; //@"<a.*?/a>";
+            RegexStr = @"<a.*?(/a>|/>)"; //@"<a.*?/a>";
             var mats = Regex.Matches(TaobaoLink, RegexStr);
+            Console.WriteLine($"TaobaoLink:\r\n{TaobaoLink}\r\n");
+            Console.WriteLine($"RegexStr:\r\n{RegexStr}\r\n");
+            for (int i = 0; i < mats.Count; i++)
+            {
+                for (int j = 0; j < mats[i].Groups.Count; j++)
+                {
+                    Console.WriteLine($"第{i}{j}组：" + mats[i].Groups[j].Value);
+                }
+            }
+
+            Console.WriteLine("------------------------------------------------------------------");
+            RegexStr = @"<a.*^[/>].*?</a>|<a.*?/>"; //@"<a.*?/a>";
+            mats = Regex.Matches(TaobaoLink, RegexStr);
             Console.WriteLine($"TaobaoLink:\r\n{TaobaoLink}\r\n");
             Console.WriteLine($"RegexStr:\r\n{RegexStr}\r\n");
             for (int i = 0; i < mats.Count; i++)
